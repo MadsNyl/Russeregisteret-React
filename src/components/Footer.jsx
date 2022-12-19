@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 export function Footer() {
     return (
-        <div className="px-12 pt-12 pb-16 bg-white flex justify-around space-x-6 items-end">
+        <div className="px-12 pt-12 pb-16 bg-white flex justify-around space-x-20 items-end">
             <form className="max-w-xl w-full text-gray-900">
                 <div className="pb-8">
                     <h1 className="text-4xl font-bold">
