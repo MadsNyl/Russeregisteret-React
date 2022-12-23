@@ -29,7 +29,7 @@ export function Home() {
         setNameError(false);
         setYearError(false);
         setSearch({
-            name: name,
+            name: name.charAt(0).toUpperCase() + name.slice(1),
             year: year
         })
         setName("");
@@ -81,7 +81,7 @@ export function Home() {
         }
 
         setData({
-            name: result[0].result[0].name,
+            name: result[0].result[0].name.charAt(0).toUpperCase() + result[0].result[0].name.slice(1),
             year: result[0].result[0].year
         });
 
@@ -121,7 +121,7 @@ export function Home() {
         { 
             logo: group, 
             title: "pris",
-            text: "Det er nå 3029 russenavn registrert i vårt register."
+            text: "Det er nå over 3000 russenavn registrert i vårt register."
         },
         { 
             logo: price, 

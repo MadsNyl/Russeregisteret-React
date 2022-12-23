@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import { Home } from "../pages/Home";
 import { Search } from "../pages/Search";
 import { Cart } from "../pages/Cart";
+import { Success } from "../pages/Success";
 
 
 export function AnimatedRoutes() {
@@ -15,6 +16,7 @@ export function AnimatedRoutes() {
                 <Route path='/' element={<Home />} />
                 <Route path='/search' element={<Search />} />
                 <Route path='/cart' element={<Cart />} />
+                <Route path='/success' element={<Success />} />
             </Routes>
         </AnimatePresence>
     );

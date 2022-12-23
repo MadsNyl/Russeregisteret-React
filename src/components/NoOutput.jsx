@@ -6,7 +6,7 @@ export function NoOutput(props) {
         <div className="max-w-md w-full h-54 text-gray-900">
             <div className="w-full bg-white border border-gray-300 rounded-md px-4 py-3">
                 <h1 className="text-lg font-semibold pb-4">
-                    Liknende navn til {props.search.name} {props.search.year}
+                    Liknende navn til <span className="capitalize">{props.search.name}</span> {props.search.year}
                 </h1>
                 <p className="pb-2">
                     Det ble funnet ingen liknende navn i vårt register.
