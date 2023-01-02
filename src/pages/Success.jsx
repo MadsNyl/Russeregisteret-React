@@ -9,7 +9,6 @@ export function Success() {
     const [sessionParam] = useSearchParams();
     const [isLoading, setLoading] = useState();
     const [session, setSession] = useState();
-    const [error, setError] = useState();
     const [cart, setCart] = useContext(CartContext);
 
     const navigator = useNavigate();
@@ -43,6 +42,7 @@ export function Success() {
 
         setSession(data);
         setCart();
+        localStorage.removeItem("cart");
         setLoading(false);
     }   
 
@@ -55,17 +55,17 @@ export function Success() {
             {
                 !isLoading && session
                 ? <div className="flex justify-center mt-12 text-gray-900 pb-20">
-                    <div className="bg-white px-12 py-6 rounded-md shadow-md max-w-xl w-full">
+                    <div className="bg-white px-4 lg:px-12 py-6 rounded-md shadow-md max-w-xs md:max-w-lg lg:max-w-xl w-full">
                         <div className="flex justify-center pb-6">
                             <img 
-                                className="w-32 h-32"
+                                className="w-20 h-20 md:w-32 md:h-32"
                                 src={launch} 
                                 alt="Kjøp fullført" 
                             />
                         </div>
                         <div className="flex justify-center text-center pb-8">
                             <div className="space-y-4">
-                                <h1 className="text-2xl font-semibold">
+                                <h1 className="text-xl md:text-2xl font-semibold">
                                     { session.length > 1 
                                         ? "Gratulerer, dine navn er registrert" 
                                         : "Gratulerer, ditt navn er registrert"}
@@ -83,8 +83,8 @@ export function Success() {
                                 </p>
 
                                 {
-                                    session.map(item => {
-                                        return <p className="font-medium">
+                                    session.map((item, index) => {
+                                        return <p key={index} className="font-medium">
                                             - {item}
                                         </p>
                                     })
@@ -92,7 +92,7 @@ export function Success() {
                             </div>
                         </div>
 
-                        <div className="text-gray-400">
+                        <div className="text-gray-400 break-words">
                             <p className="font-medium text-sm">
                                 Id: <span className="text-xs">{sessionId}</span>
                             </p>

@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 export function ItemAddedMessage(props) {
     return (
-        <div className="w-full py-5 px-6 bg-emerald-400 text-white text-lg rounded-lg flex justify-between items-center">
+        <div className="w-full py-3 lg:py-5 px-6 bg-emerald-400 text-white lg:text-lg rounded-lg flex justify-between items-center">
             <h1>
                 "{props.item.name} {props.item.year}" er lagt til i din <NavLink to={"/cart"} className="underline font-semibold">handlekurv</NavLink>. 
             </h1>

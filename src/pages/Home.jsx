@@ -1,10 +1,6 @@
 import React, { useContext, useState } from "react";
 import { InfoBox } from "../components/InfoBox";
 import { Animated } from "./Animated";
-import upload from "../img/up-arrow.png";
-import group from "../img/teamwork.png";
-import price from "../img/discount.png";
-import look from "../img/look.png";
 import stripe from "../img/stripe.svg";
 import { API_URL } from "../shared";
 import { Output } from "../components/Output";
@@ -96,11 +92,17 @@ export function Home() {
     const addItem = () => {
         setAdded(true);
 
-        if (!cart) setCart([{name: search.name, year: search.year}]);
+        if (!cart) setCart({
+            storage: [{name: search.name, year: search.year}],
+            size: 1
+        });
         else {
-            const temp = cart;
+            const temp = cart.storage;
             temp.push({name: search.name, year: search.year})
-            setCart(temp);
+            setCart({
+                storage: temp,
+                size: temp.length
+            });
         }
 
         setTimeout(() => {
@@ -116,70 +118,56 @@ export function Home() {
         setRender(true);
     }
  
-    const info = [
-        { 
-            logo: look, 
-            title: "søk",
-            text: "Søk i våre registre. Både for inspirasjon og for å se hva som har vært i bruk og når."
-        },
-        { 
-            logo: upload, 
-            title: "registrer",
-            text: "Last opp ett eller flere navn som dere ønsker å vise resten av russeverden at skal bli tatt i bruk. Dere forblir så klart helt anonyme."
-        },
-        { 
-            logo: group, 
-            title: "pris",
-            text: "Det er nå over 3000 russenavn registrert i vårt register."
-        },
-        { 
-            logo: price, 
-            title: "pris",
-            text: "For å forhindre masseopplasting av navn (for å holde av flest mulige navn) så har vi satt på en liten prissperre på 59 kr."
-        },
-    ];
+
 
     return (
         <Animated>
-            <div className="flex justify-center mt-20 pb-24">
-                <div className="lg:max-w-5xl lg:ml-20 text-center">
-                    <h1 className="font-medium text-3xl lg:text-6xl leading-tight pb-8">
-                        En enkel, rask og effektiv måte å reservere gruppenavnet
+            <div className="flex justify-center mt-20 pb-16 lg:pb-24">
+                <div className="lg:max-w-5xl px-8 text-center">
+                    <h1 className="font-medium text-3xl md:text-4xl lg:text-6xl leading-tight pb-8">
+                        En enkel, rask og effektiv måte for å reservere gruppenavnet
                     </h1>
                     <div className="flex justify-center pb-12">
-                        <p className="text-center lg:text-lg lg:max-w-lg text-sky-900">
+                        <p className="text-center md:text-lg lg:text-xl md:max-w-md lg:max-w-lg text-sky-900">
                             Finn ut om ideene deres er i bruk, og forhindre at andre tar i bruk samme navn som dere
                         </p>
                     </div>
                 </div>
             </div>
 
-            <div className="grid grid-cols-2 place-items-center px-36 gap-y-8 pb-32">
-                {
-                    info.map(item => {
-                        return <InfoBox key={item.logo} logo={item.logo} text={item.text} />
-                    })
-                }
+            <div className="grid md:grid-cols-2 place-items-center px-16 lg:px-36 gap-y-8 md:gap-x-6 pb-32">
+                <InfoBox />
             </div>
 
-            <div className="bg-white px-32 py-16 rounded-xl mb-20">
-                <div className="pb-16 flex justify-between">  
+            <div className="bg-white px-6 md:px-12 lg:px-32 py-16 rounded-xl mb-20">
+                <div className="pb-16 md:flex justify-between">  
                     <div className="max-w-md">
-                        <h1 className="text-red-400 text-5xl font-semibold pb-6">
+                        <h1 className="text-red-400 text-3xl lg:text-5xl font-semibold pb-8">
                             Registrer navn
                         </h1>
+                        <ul className="text-lg text-gray-900 pb-6 list-disc ml-6 lg:ml-12">
+                            <li className="">
+                                Registrer ditt navn
+                            </li>
+                            <li>
+                                Se hvilke eksisterende navn som ligner mest
+                            </li>
+                            <li>
+                                Legg ditt navn til i handlekurven for betaling
+                            </li>
+                        </ul>
                         <p className="text-lg text-gray-900">
-                            Hos oss betaler dere trygt med <a className="text-blue-800 font-medium" href="https://stripe.com/en-no">Stripe</a>, en sikker leverandør for betaling over nett.
+                            Hos oss betaler dere trygt med <a target="_blank" rel="noreferrer" className="text-blue-800 font-medium" href="https://stripe.com/en-no">Stripe</a>, en sikker leverandør for betaling over nett.
                         </p>
                     </div>
                     <img 
                         src={stripe} 
                         alt="Stripe logo" 
-                        className="w-52 h-52"
+                        className="w-52 h-52 md:block hidden"
                     />
                 </div>
 
-                <div className="flex justify-between py-8 pb-16">
+                <div className="lg:flex justify-between py-8 pb-16">
                     <form 
                         onSubmit={check}
                         className="max-w-md w-full text-gray-900"
@@ -212,7 +200,7 @@ export function Home() {
                         <div className="flex justify-center mt-5">
                             <button 
                                 disabled={ name.length === 0 || year.length === 0 ? true : false }
-                                className={"py-3 w-full rounded-md font-medium text-lg flex justify-center " + (name.length === 0 || year.length === 0 ? "bg-gray-200 text-gray-400" : "bg-red-400 text-white")}
+                                className={"py-3 w-full rounded-md font-medium lg:text-lg flex justify-center " + (name.length === 0 || year.length === 0 ? "bg-gray-200 text-gray-400" : "bg-red-400 text-white")}
                             >
                                 { !isLoading 
                                     ? "Sjekk opp mot register" 

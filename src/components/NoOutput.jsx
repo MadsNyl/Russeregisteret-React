@@ -3,7 +3,7 @@ import { AddToCart } from "../functions/AddToCart";
 
 export function NoOutput(props) {
     return(
-        <div className="max-w-md w-full h-54 text-gray-900">
+        <div className="max-w-md w-full h-54 text-gray-900 mt-6 lg:mt-0">
             <div className="w-full bg-white border border-gray-300 rounded-md px-4 py-3">
                 <h1 className="text-lg font-semibold pb-4">
                     Liknende navn til <span className="capitalize">{props.search.name}</span> {props.search.year}
@@ -23,7 +23,7 @@ export function NoOutput(props) {
                         props.addItem();
                         props.removeOutput();
                     }}
-                    className="py-3 rounded-md bg-red-400 border border-red-400 w-full text-white font-medium text-lg"
+                    className="py-3 rounded-md bg-red-400 border border-red-400 w-full text-white font-medium lg:text-lg"
                 >
                     Legg til navn
                 </button>

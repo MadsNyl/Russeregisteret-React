@@ -3,8 +3,8 @@ import { RemoveFromCart } from "../functions/RemoveFromCart";
 
 export function CartItem(props) {
     return (
-        <div className="w-full flex justify-between items-center py-4 px-6 bg-gray-100 border border-gray-200 text-gray-900 rounded-md">
-            <div className="flex items-center space-x-2 text-lg font-semibold">
+        <div className="w-full flex justify-between items-center py-4 px-3 lg:px-6 bg-gray-100 border border-gray-200 text-gray-900 rounded-md">
+            <div className="flex items-center space-x-2 lg:text-lg font-semibold">
                 <h1>
                     { props.item.name }
                 </h1>

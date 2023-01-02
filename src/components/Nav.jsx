@@ -9,23 +9,27 @@ export function Nav(props) {
     const [cart, setCart] = useState();
 
     useEffect(() => {
-        const storage = JSON.parse(localStorage.getItem("cart"));
-        if (storage) {
-            if (storage.length > 0) setCart(storage);
+        const cartStorage = JSON.parse(localStorage.getItem("cart"));
+        if (cartStorage) {
+            if (cartStorage.storage.length > 0) setCart({
+                storage: cartStorage.storage,
+                size: cartStorage.storage.length
+            });
         }
     }, []);
 
 
+
     return(
         <CartContext.Provider value={[cart, setCart]}>
-            <div className="font-sans bg-gradient-to-br from-sky-300 via-indigo-400 to-sky-300 text-white relative overflow-x-hidden">
-                <header className="flex justify-between items-center py-6 max-w-7xl mx-auto">
+            <div className="font-sans bg-gradient-to-br from-red-200 via-indigo-400 to-red-300 text-white relative overflow-x-hidden">
+                <header className="flex justify-between items-center py-6 max-w-8xl mx-auto">
                     <div className="ml-6 md:ml-16 lg:ml-20">
                         <NavLink
                             to={"/"}
                             className="text-xl md:text-2xl lg:text-4xl font-semibold"
                         >
-                            <span className="text-red-400">Russe</span>registeret
+                            <span className="text-sky-900">Russe</span>registeret
                         </NavLink>
                     </div>
                     <nav className="mr-6 md:mr-16 lg:mr-20 flex items-center space-x-8">
@@ -50,7 +54,7 @@ export function Nav(props) {
                                 </svg>
                                 <div className="absolute -bottom-2 -right-1 w-5 h-5 rounded-full bg-sky-900 flex justify-center items-center text-gray-300 text-xs transition duration-150 ease-in-out group-hover:text-sky-900 group-hover:bg-white">
                                     <p>
-                                        { cart ? cart.length : 0 }
+                                        { cart ? cart.size : 0 }
                                     </p>
                                 </div>
                             </div>
@@ -62,7 +66,7 @@ export function Nav(props) {
                     { props.children }
                 </div>
 
-                <div className="max-w-7xl mx-auto">
+                <div className="max-w-8xl mx-auto">
                     <Footer />
                 </div>
             </div>

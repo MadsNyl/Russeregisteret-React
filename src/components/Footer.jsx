@@ -1,63 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { API_URL } from "../shared";
 
 export function Footer() {
 
     const [isLoading, setLoading] = useState();
-    const [nameError, setNameError] = useState(false);
-    const [emailError, setEmailError] = useState(false);
-    const [msgError, setMsgError] = useState(false);
+    const [error, setError] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [msg, setMsg] = useState("");
+    const [success, setSuccess] = useState(false);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setSuccess(false);
+        }, 5000);
+    }, [success]);
+
+    useEffect(() => {
+        setError("");
+    }, [name, email, msg])
 
     const send = async (e) => {
         setLoading(true);
         e.preventDefault();
         e.target.reset();
 
-        if (name.length === 0) {
-            setNameError(true);
-            if (email.length === 0) {
-                setEmailError(true);
-
-                if (msg.length === 0) {
-                    setMsgError(true);
-                    setLoading(false);
-                    return;
-                } 
-
-                return;
-            } else {
-                
-                if (msg.length === 0) {
-                    setMsgError(true);
-                    setLoading(false);
-                    return;
-                }
-            }
-
+        
+        if (!name || !email || !msg) {
+            setError("Alle felter må fylles inn.");
+            setLoading(false);
             return;
-        } else {
-
-            if (email.length === 0) {
-                setEmailError(true);
-                if (msg.length === 0) {
-                    setMsgError(true);
-                    setLoading(false);
-                    return;
-                }
-
-                return;
-            } else {
-                
-                if (msg.length === 0) {
-                    setLoading(false);
-                    setMsgError(true);
-                    return;
-                } 
-            }
         }
 
         const body = {
@@ -66,7 +39,7 @@ export function Footer() {
             message: msg
         }
 
-        let res = await fetch(API_URL + "contact", {
+        await fetch(API_URL + "contact", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -74,47 +47,45 @@ export function Footer() {
             body: JSON.stringify(body)
         });
 
-        const result = res.body;
-
+        // const result = res.body;
+        setSuccess(true);
         setLoading(false);
     }
 
     return (
-        <div className="px-12 pt-12 pb-16 bg-white flex justify-around space-x-20 items-end">
+        <div className="px-12 pt-12 pb-16 bg-gray-900 lg:flex justify-around lg:space-x-20 items-center">
             <form 
-                className="max-w-xl w-full text-gray-900"
+                className="max-w-xl w-full text-white"
                 onSubmit={send}
             >
                 <div className="pb-8">
-                    <h1 className="text-4xl font-bold">
+                    <h1 className="text-3xl lg:text-4xl font-bold">
                         Kontakt oss
                     </h1>
                 </div>
-                <div className="flex items-center space-x-8 pb-6">
+                <div className="lg:flex items-center lg:space-x-8 pb-6 space-y-4 lg:space-y-0">
                     <div className="w-full space-y-2">
-                        <h1 className="text-lg font-medium text-gray-600">
-                            Ditt navn
+                        <h1 className="lg:text-lg font-medium text-white">
+                            Ditt navn <span className="text-red-400 text-lg">*</span>
                         </h1>
                         <input 
                             onChange={(e) => {
                                 setName(e.target.value);
                             }}
                             type="text"
-                            className={"focus:outline-none w-full px-4 py-2 text-gray-900 bg-white rounded-md " + (nameError ? "placeholder:text-red-600 border border-red-600" : "placeholder:text-gray-400 border border-gray-300")} 
-                            placeholder={nameError ? "Fyll inn navn" : ""}
+                            className={"focus:outline-none w-full px-4 py-2 text-gray-900 bg-white rounded-md placeholder:text-gray-400 border border-gray-300"} 
                         />
                     </div>
                     <div className="w-full space-y-2">
-                        <h1 className="text-lg font-medium text-gray-600">
-                            Din epost
+                        <h1 className="lg:text-lg font-medium text-white">
+                            Din epost <span className="text-red-400 text-lg">*</span>
                         </h1>
                         <input 
                             onChange={(e) => {
                                 setEmail(e.target.value);
                             }}
                             type="email"
-                            className={"focus:outline-none w-full px-4 py-2 text-gray-900 bg-white rounded-md " + (emailError ? "placeholder:text-red-600 border border-red-600" : "placeholder:text-gray-400 border border-gray-300")} 
-                            placeholder={nameError ? "Fyll inn epost" : ""}
+                            className={"focus:outline-none w-full px-4 py-2 text-gray-900 bg-white rounded-md placeholder:text-gray-400 border border-gray-300"} 
                         />
                     </div>
                 </div>
@@ -124,15 +95,15 @@ export function Footer() {
                         onChange={(e) => {
                             setMsg(e.target.value);
                         }}
-                        className={"resize-none focus:outline-none w-full px-4 py-2 text-gray-900 bg-white h-32 rounded-md " + (msgError ? "placeholder:text-red-600 border border-red-600" : "placeholder:text-gray-400 border border-gray-300")}
-                        placeholder={nameError ? "Fyll inn melding" : "Din melding til oss..."}
+                        className={"resize-none focus:outline-none w-full px-4 py-2 text-gray-900 bg-white h-32 rounded-md placeholder:text-gray-400 border border-gray-300"}
+                        placeholder={"Din melding til oss..."}
                     />
                 </div>
 
                 <div className="w-full">
                     <button 
-                        disabled={isLoading ? true : false}
-                        className={"w-full py-2 rounded-md text-white text-lg font-medium flex justify-center items-center " + (isLoading ? "bg-gray-300" : "bg-black ") }
+                        disabled={isLoading}
+                        className={"w-full py-2 rounded-md text-white text-lg font-medium flex justify-center items-center " + (isLoading ? "bg-gray-300" : "bg-red-400 ") }
                     >
                         {
                             !isLoading 
@@ -144,10 +115,23 @@ export function Footer() {
                         }
                     </button>
                 </div>
+
+                <div className="h-16 py-5">
+                    {
+                        success
+                            ? <div className="w-full px-4 py-3 rounded-md bg-emerald-400 text-center text-white">Epost er sendt.</div>
+                            : <div></div>
+                    }
+                    {
+                        error
+                            ? <div className="w-full px-4 py-3 rounded-md bg-red-800 text-center text-white">Alle felter må fylles inn.</div>
+                            : <div></div>
+                    }
+                </div>
             </form>
 
-            <div className="max-w-md w-full">
-                <div className="text-gray-900">
+            <div className="max-w-md w-full mt-6 lg:mt-0">
+                <div className="text-white">
                     <h1 className="pb-6">
                         <span className="font-semibold text-lg">Kontakt:</span> kundeservice@russeregisteret.no 
                     </h1>
@@ -158,10 +142,6 @@ export function Footer() {
                     >
                         <span className="text-red-400">Russe</span>registeret
                     </NavLink>
-
-                    <h1 className="font-semibold text-gray-500 mt-3">
-                        Laget av NylHolth DA
-                    </h1>
                 </div>
             </div>
         </div>
