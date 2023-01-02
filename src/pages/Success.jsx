@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { API_URL } from "../shared";
 import { Animated } from "./Animated";
 import launch from "../img/launch.png";
+import { CartContext } from "../components/Nav";
 
 export function Success() {
     const [sessionParam] = useSearchParams();
     const [isLoading, setLoading] = useState();
     const [session, setSession] = useState();
     const [error, setError] = useState();
+    const [cart, setCart] = useContext(CartContext);
 
     const navigator = useNavigate();
     const sessionId = sessionParam.get("session_id");
@@ -28,8 +30,7 @@ export function Success() {
         });
 
         if (res.status === 400) {
-            setError(true);
-            setLoading(false);
+            navigator("/");
             return;
         }
 
@@ -41,7 +42,7 @@ export function Success() {
         }
 
         setSession(data);
-        localStorage.removeItem("cart");
+        setCart();
         setLoading(false);
     }   
 
@@ -70,7 +71,7 @@ export function Success() {
                                         : "Gratulerer, ditt navn er registrert"}
                                 </h1>
                                 <p className="">
-                                    Du har nå blitt tilsendt en bekrefetelse på epost.
+                                    Du har nå blitt tilsendt en bekrefetelse på epost. Se i spam/søppelpost hvis du ikke har fått mail.
                                 </p>
                             </div>
                         </div>

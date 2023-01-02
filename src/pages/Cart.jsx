@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Animated } from "../pages/Animated";
 import { NavLink } from "react-router-dom";
 import { EmptyCart } from "../components/EmptyCart";
 import { CartItem } from "../components/CartItem";
 import { API_URL } from "../shared";
+import { CartContext } from "../components/Nav";
 
 export function Cart() {
     
-    const [cart, setCart] = useState();
+    const [cart, setCart] = useContext(CartContext);
     const [isLoading, setLoading] = useState();
  
     const checkOut = async () => {
@@ -27,13 +28,6 @@ export function Cart() {
 
         setLoading(false);
     }
-
-    useEffect(() => {
-        const storage = JSON.parse(localStorage.getItem("cart"));
-        if (storage) {
-            if (storage.length > 0) setCart(storage);
-        }
-    }, []);
 
     const removeItem = (cart, index) => {
         if (cart.length - 1 === 0) {

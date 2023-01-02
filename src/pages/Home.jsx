@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { InfoBox } from "../components/InfoBox";
 import { Animated } from "./Animated";
 import upload from "../img/up-arrow.png";
@@ -6,11 +6,11 @@ import group from "../img/teamwork.png";
 import price from "../img/discount.png";
 import look from "../img/look.png";
 import stripe from "../img/stripe.svg";
-import { NavLink } from "react-router-dom";
 import { API_URL } from "../shared";
 import { Output } from "../components/Output";
 import { NoOutput } from "../components/NoOutput";
 import { ItemAddedMessage } from "../components/ItemAddedMessage";
+import { CartContext } from "../components/Nav";
 
 export function Home() {
     const [name, setName] = useState("");
@@ -23,6 +23,8 @@ export function Home() {
     const [isLoading, setLoading] = useState();
     const [nameError, setNameError] = useState(false);
     const [yearError, setYearError] = useState(false);
+
+    const [cart, setCart] = useContext(CartContext);
 
     const resetStates = () => {
         setLoading(true);
@@ -93,6 +95,13 @@ export function Home() {
 
     const addItem = () => {
         setAdded(true);
+
+        if (!cart) setCart([{name: search.name, year: search.year}]);
+        else {
+            const temp = cart;
+            temp.push({name: search.name, year: search.year})
+            setCart(temp);
+        }
 
         setTimeout(() => {
             setAdded(false);

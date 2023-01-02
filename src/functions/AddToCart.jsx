@@ -1,11 +1,12 @@
 import React from "react";
 
-export function AddToCart(item) {
-    const cart = JSON.parse(localStorage.getItem("cart"));
+export function AddToCart(item, cart, setCart) {
 
-    if (cart) {
-        cart.push({name: item.name, year: item.year});
-        localStorage.setItem("cart", JSON.stringify(cart));
+    const c = JSON.parse(localStorage.getItem("cart"));
+
+    if (c) {
+        c.push({name: item.name, year: item.year});
+        localStorage.setItem("cart", JSON.stringify(c));
     } else {
         let cartList = [];
         cartList.push({name: item.name, year: item.year});
